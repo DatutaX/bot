@@ -1,0 +1,107 @@
+<html lang="vi-vn">
+	<head>
+		<title>Ami</title>
+		<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+		<link rel="icon" href="https://cdn0.iconfinder.com/data/icons/science-10/450/robot-512.png" type="image/x-icon">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+		<meta name="author" content="Dat Nguyen"/>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./css/chat.css">
+	</head>
+	<body>
+		<div class="container" role="main" style="margin-top:30px">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="hidden-xs col-sm-3">
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<i class="fa fa-info" aria-hidden="true"></i> GIỚI THIỆU AMI DỄ THƯƠNG
+							</div>
+							<div class="panel-body">
+								<b><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span> AMI dễ thương</b> là một em gái cực kỳ xinh đẹp với số đo 3 vòng chuẩn nhất hệ mặt trời và vô cùng dễ thương.
+								<br>
+								<b><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Dat Nguyen</b> là ông chủ của Ami và là người vô cùng đẹp trai, thông minh. Liên hệ với ông chủ của Anni <a href="https://www.datuta.com" target="_blank">Tại đây</a>.
+							</div>
+						</div>
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<i class="fa fa-gg" aria-hidden="true"></i> MỘT SỐ TIPS
+							</div>
+							<div class="panel-body">
+								<p><i class="fa fa-angle-right" aria-hidden="true"></i> Bạn có thể sử dụng enter thay vì nhấn nút gửi</p>
+								<p><i class="fa fa-angle-right" aria-hidden="true"></i> Khi Ami trả lời quá lâu bạn có thể Refresh lại trang và thử lại.</p>
+							</div>
+							<div class="panel-footer">
+							<a href="" target="_blank"><button class="btn btn-primary btn-block">Thắc mắc ?</button></a>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-9">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<i class="fa fa-inbox" aria-hidden="true"></i> CHAT VỚI AMI XINH ĐẸP
+							</div>
+							<div class="panel-body" id="scrolldi" style="overflow: auto; height:383px;">
+								<div id="tinnhan"><div class="bubbles me">Em là Ami, chủ nhân có gì muốn tâm sự</div>
+								</div>
+								<div class="hidden" id="loading"><img src="./img/loading.gif" width="20" height="20"></div>
+							</div>
+							<div class="panel-footer">
+								<div class="input-group">
+									<input class="vc" id="noidung" placeholder="Nhập nội dung cần nhắn vào đây !" required="" autofocus="" autocomplete="off">
+									<span class="input-group-btn">
+										<button class="btn btn-primary" onclick="send()"><i class="fa fa-paper-plane" aria-hidden="true"></i> GỬI</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script language="javascript">
+        function send(){
+            var div = document.createElement("div"),
+            	texte = $('#noidung').val(),
+            	text = encodeURI(texte);
+            div.className = "bubble you";
+            document.getElementById("noidung").value = "";
+            div.innerHTML = texte;
+            document.getElementById('tinnhan').appendChild(div);
+            var objDiv = document.getElementById("scrolldi");
+			objDiv.scrollTop = objDiv.scrollHeight;
+			document.getElementById("loading").className = "bubbles me";
+			$.ajax({
+                                url : "respone.php",
+                                type : "POST",
+                                dateType:"text",
+                                data : {
+                                    text : text
+                                },
+                                success : function (result){
+                                	var div = document.createElement("div");
+                                	div.className = "bubbles me";
+                                    div.innerHTML = result;
+            						document.getElementById('tinnhan').appendChild(div);
+            						document.getElementById("noidung").value = "";
+            						document.getElementById("loading").className = "hidden";
+            						var objDiv = document.getElementById("scrolldi");
+									objDiv.scrollTop = objDiv.scrollHeight;
+                                }
+                            });
+			var objDiv = document.getElementById("scrolldi");
+			objDiv.scrollTop = objDiv.scrollHeight;
+        };
+        $('#noidung').keydown(function (e){
+   		if(e.keyCode == 13){
+        console.log('you pressed enter!');
+        send();
+        document.getElementById("noidung").value = "";
+    	}
+		})
+        </script>
+</html>
